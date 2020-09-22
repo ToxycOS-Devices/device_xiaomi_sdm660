@@ -50,6 +50,24 @@ char const *heapminfree;
 char const *heapmaxfree;
 char const *heaptargetutilization;
 
+void property_override(char const prop[], char const value[])
+{
+    prop_info *pi;
+
+    pi = (prop_info*) __system_property_find(prop);
+    if (pi)
+        __system_property_update(pi, value, strlen(value));
+    else
+        __system_property_add(prop, strlen(prop), value, strlen(value));
+}
+
+void property_override_dual(char const system_prop[],
+        char const vendor_prop[], char const value[])
+{
+    property_override(system_prop, value);
+    property_override(vendor_prop, value);
+}
+
 void check_device()
 {
     struct sysinfo sys;
@@ -93,4 +111,8 @@ void vendor_load_properties()
     SetProperty("dalvik.vm.heaptargetutilization", heaptargetutilization);
     SetProperty("dalvik.vm.heapminfree", heapminfree);
     SetProperty("dalvik.vm.heapmaxfree", heapmaxfree);
+    
+    // fingerprint
+    property_override("ro.build.description", "lavender-user 10 QKQ1.190910.002 V11.0.1.0.QFGMIXM release-keys");
+    property_override_dual("ro.build.fingerprint", "ro.vendor.build.fingerprint", "google/coral/coral:11/RP1A.200720.009/6720564:user/release-keys");
 }
