@@ -364,6 +364,6 @@
     <!-- The amount to scale fullscreen snapshots for Overview and snapshot starting windows. -->
     <item format="float" type="dimen" name="config_fullTaskSnapshotScale">0.8</item>
 
-    <!-- Corner radius of system progress bars -->
-    <dimen name="config_progressBarCornerRadius">1000.0dip</dimen>
+    <!-- Flag indicating whether round icons should be parsed from the application manifest. -->
+    <bool name="config_useRoundIcon">true</bool>
 </resources>
