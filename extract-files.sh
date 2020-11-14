@@ -23,10 +23,9 @@ VENDOR=xiaomi
 # Load extract_utils and do some sanity checks
 MY_DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "$MY_DIR" ]]; then MY_DIR="$PWD"; fi
+TOXYC__ROOT="$MY_DIR"/../../..
 
-EVO_ROOT="$MY_DIR"/../../..
-
-HELPER="$EVO_ROOT"/vendor/evolution/build/tools/extract_utils.sh
+HELPER="$TOXYC_ROOT"/vendor/toxyc/build/tools/extract_utils.sh
 if [ ! -f "$HELPER" ]; then
     echo "Unable to find helper script at $HELPER"
     exit 1
@@ -78,7 +77,7 @@ function blob_fixup() {
 }
 
 # Initialize the common helper
-setup_vendor "$DEVICE_COMMON" "$VENDOR" "$EVO_ROOT" true $CLEAN_VENDOR
+setup_vendor "$DEVICE_COMMON" "$VENDOR" "$TOXYC_ROOT" true $CLEAN_VENDOR
 
 extract "$MY_DIR"/proprietary-files.txt "$SRC" \
     "${KANG}" --section "${SECTION}"
@@ -87,14 +86,14 @@ extract "$MY_DIR"/proprietary-files-fm.txt "$SRC" \
 
 if [ -s "$MY_DIR"/../$DEVICE_SPECIFIED_COMMON/proprietary-files.txt ];then
     # Reinitialize the helper for device specified common
-    setup_vendor "$DEVICE_SPECIFIED_COMMON" "$VENDOR" "$EVO_ROOT" false "$CLEAN_VENDOR"
+    setup_vendor "$DEVICE_SPECIFIED_COMMON" "$VENDOR" "$TOXYC_ROOT" false "$CLEAN_VENDOR"
     extract "$MY_DIR"/../$DEVICE_SPECIFIED_COMMON/proprietary-files.txt "$SRC" \
     "${KANG}" --section "${SECTION}"
 fi
 
 if [ -s "$MY_DIR"/../$DEVICE/proprietary-files.txt ]; then
     # Reinitialize the helper for device
-    setup_vendor "$DEVICE" "$VENDOR" "$EVO_ROOT" false "$CLEAN_VENDOR"
+    setup_vendor "$DEVICE" "$VENDOR" "$TOXYC_ROOT" false "$CLEAN_VENDOR"
     extract "$MY_DIR"/../$DEVICE/proprietary-files.txt "$SRC" \
     "${KANG}" --section "${SECTION}"
 fi
